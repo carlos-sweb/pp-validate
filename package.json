@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "pp-is": "^1.0.2"
+    "pp-model.js": "^1.2.4"
   }
 }

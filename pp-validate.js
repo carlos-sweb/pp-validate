@@ -9,56 +9,49 @@
   var root = typeof self == 'object' && self.self === self && self ||
     typeof global == 'object' && global.global === global && global;
     if (typeof define === 'function' && define.amd) {
-      define(['ppIs','exports'], function(ppIs, exports) {
-        root.ppValidate = factory( root , exports , ppIs );
+      define(['ppModel','exports'], function(ppIs, exports) {
+        root.ppValidate = factory( root , exports , ppModel );
       });
     } else if (typeof exports !== 'undefined') {
-      var ppIs = {};
-      try { ppIs = require('pp-is'); } catch (e) {}
-      module.exports = factory(root, exports, ppIs );
+      var ppModel = {};
+      try { ppModel = require('pp-model.js'); } catch (e) {}
+      module.exports = factory(root, exports, ppModel );
     } else {
-      root.ppValidate = factory(root, {}, root.ppIs );
+      root.ppValidate = factory(root, {}, root.ppModel );
     }
 
-})(this,function( root, exports , _is ){
+})(this,function( root, exports , model ){
     // =========================================================================
     // FUNC HAS
     var has = function( value , key ){
       return value.hasOwnProperty( key )
     }
 
-    var isO = _is.isObject , isS = _is.isString, isF = _is.isFunction;
+    // Necesitamos validar
+    // Data Time validator - format all
+    // Email
+    // Equality
+    // Exclusion
+    // Format
+    // Inclusion
+    // Length
+    // numericality
+    // presence
+    // Type
+    // Url
+    
+    function emailIsValid (email) {
+      return /\S+@\S+\.[a-z]{1,}/.test(email)
+    }
 
-    return function( data , validate ){
-        // VALIDAMOS QUE LOS ARGUMENTOS SEAN OBJECTOS
-        if( isO( data ) && isO( validate)  ){
-          // CAPTURAMOS LOS LLAVES DEL OBJECTO
-          var keyData = Object.keys( data );
-          // ===================================================================
-          // FOR START
-          // HACEMOS UN FOR PARA VALIDAR CADA CAMPO
-          for( var i = 0 ; i < keyData.length ; i++){
-              // ---------------------------------------------------------------
-              // DEFINIMOS LA LLAVE PRINCIPAL
-              var _key = keyData[i];
-              // ---------------------------------------------------------------
-              // CAPTURANMOS EL VALOR A COMPARAR SEGUN EL VALIDADOR
-              var _value = data[_key];
-              // ---------------------------------------------------------------
-              // validamos que el validor tenga alguna información
-              if( has( validate, _key )  ){
-                if( isS( validate[_key] )  ){
-                  switch(validate[_key]){
-                    case 'string':
-                      console.log( isS( _value )  );
-                    break;
-                  } // switch
-                }// if
-              } //if
-          }
-          // ==== FOR END
-          // ===================================================================
-        }
+    console.log(  emailIsValid('ventas@test999.com.ar') );
+
+
+    var validate = function( data , rules ){
         return false;
     }
+
+    return validate;
+
+
 });

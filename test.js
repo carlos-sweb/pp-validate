@@ -6,5 +6,3 @@ var result = validate(
     },{
       name : "string(max:20,min:10),required(false)"
     });
-
-console.log( result );
