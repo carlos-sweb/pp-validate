@@ -32,6 +32,17 @@
       // =======================================================================
       for( var i = 0 ; i < keyRules.length; i ++ ){
         var key = keyRules[i];
+        if( key == 'alpha'    ){ checkList[key] = /^[a-zA-Z]{1,}?$/.test(value)}
+        // ---------------------------------------------------------------------
+        if( key == 'range' ){
+          var range = rules[ key ].split(",");
+          if( range.length == 2 ){
+            var rangeMin = parseInt( range[0] );
+            var rangeMax =  parseInt( range[1]);
+            checkList[key] = (parseInt( value )  >= rangeMin && parseInt(value) <= rangeMax);
+          }else{checkList[key] = false;}
+        }
+        // ---------------------------------------------------------------------
         if( key == 'string'    ){ checkList[key] = isS( value ) }
         if( key == 'mail'    ){ checkList[key] = isM( value ) }
         if( key ==='number' ){ checkList[key] = isNum(value) }

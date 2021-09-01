@@ -1,8 +1,22 @@
 var validate = require('./pp-validate.js');
 
 var result = validate(
-  {name : "Carlos",age:30,email:'c4rl0sill3sc4@gmai'},
-  {name : "required|string|maxlength:7|minlength:3",age:'required|number|min:31',email:'mail'}
+
+  {
+    name :"Daisy Nataly Montenegro vera",
+    age:27,
+    email:'a@a.com'
+  },
+
+
+  {
+    name : "string|minlength:10",
+    age:'number|range:25,30',
+    email:'mail|min:10'
+  }
+
 );
+
+
 // required|max:20|min:10|regex:/^.+@.+$/i|no_regex:/^.+@.+$/i
 console.log( result );
