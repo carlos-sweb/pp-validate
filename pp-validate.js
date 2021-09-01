@@ -22,37 +22,27 @@
 
 })(this,function( root, exports , _is ){
 
-    var isS = _is.isString , isU = _is.isUndefined,log = console.log;
-    var length = function( value ){
-      return length;
-    }
+    var isS = _is.isString , isU = _is.isUndefined, isNum = _is.isNumber , isM = _is.isEmail;
+
+
 
     var compare = function( rules , value ){
       var checkList = {};
       var keyRules = Object.keys(rules);
+      // =======================================================================
       for( var i = 0 ; i < keyRules.length; i ++ ){
         var key = keyRules[i];
-        switch (key) {
-          case "string":
-            checkList[key] = isS( value );
-          break;          
-          case "required":
-            checkList[key] = (value !== "");
-          break;
-          case "maxlength":
-              checkList[key] = (value.toString().length <= rules[key]);
-          break;
-          case "minlength":
-              checkList[key] = (value.toString().length >= rules[key]);
-          break;
-
-          default:
-        }
-
+        if( key == 'string'    ){ checkList[key] = isS( value ) }
+        if( key == 'mail'    ){ checkList[key] = isM( value ) }
+        if( key ==='number' ){ checkList[key] = isNum(value) }
+        if( key == 'required'  ){ checkList[key] = (value !== "") }
+        if( key == 'maxlength' ){ checkList[key] = (value.toString().length <= rules[key]) }
+        if( key == 'minlength' ){ checkList[key] = (value.toString().length >= rules[key]) }
+        if( key == 'min' ){ checkList[key] = ( parseInt(value) >= rules[key]) }
+        if( key == 'max' ){ checkList[key] = ( parseInt(value) <= rules[key]) }
       }
-
-      console.log( checkList );
-
+      // =======================================================================
+      return !(Object.values( checkList ).includes( false ))
     }
 
     var createRules = function( rules ){
@@ -112,7 +102,7 @@
         console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         console.log( rules[key] );
         console.log( data[key] );
-        compare( rules[key] , data[key] )
+        console.log( compare( rules[key] , data[key] ) );
         console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
       }
