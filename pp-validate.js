@@ -22,8 +22,38 @@
 
 })(this,function( root, exports , _is ){
 
-    var isS = _is.isString , isU = _is.isUndefined;
+    var isS = _is.isString , isU = _is.isUndefined,log = console.log;
+    var length = function( value ){
+      return length;
+    }
 
+    var compare = function( rules , value ){
+      var checkList = {};
+      var keyRules = Object.keys(rules);
+      for( var i = 0 ; i < keyRules.length; i ++ ){
+        var key = keyRules[i];
+        switch (key) {
+          case "string":
+            checkList[key] = isS( value );
+          break;          
+          case "required":
+            checkList[key] = (value !== "");
+          break;
+          case "maxlength":
+              checkList[key] = (value.toString().length <= rules[key]);
+          break;
+          case "minlength":
+              checkList[key] = (value.toString().length >= rules[key]);
+          break;
+
+          default:
+        }
+
+      }
+
+      console.log( checkList );
+
+    }
 
     var createRules = function( rules ){
       // =======================================================================
@@ -43,7 +73,7 @@
              var options = rulesArray[e].split(":");
              var keyOptions = options[0];
              var valueOptions =  ['min','max','maxlength','minlength'].includes(keyOptions)  ? parseInt(options[1]) : options[1];
-            validateArray[ key ][keyOptions] = isU(valueOptions) ? true : valueOptions ;
+             validateArray[ key ][keyOptions] = isU(valueOptions) ? true : valueOptions ;
           }
         }
 
@@ -82,7 +112,9 @@
         console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         console.log( rules[key] );
         console.log( data[key] );
+        compare( rules[key] , data[key] )
         console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
       }
       return { valid : true , error : false };
     }
