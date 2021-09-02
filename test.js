@@ -5,14 +5,16 @@ var result = validate(
   {
     name :"Daisy Nataly Montenegro vera",
     age:27,
-    email:'a@a.com'
+    email:'a@a.com',
+    code:'0000-AB150-DEFY'
   },
 
 
   {
     name : "string|minlength:10",
-    age:'number|range:25,30',
-    email:'mail|min:10'
+    age:'number|range:10,20',
+    email:'mail|min:10',
+    code:'regex:^0000\-[A-Z]{2}[0-9]{3}\-[A-Z]{4}$'
   }
 
 );

@@ -22,7 +22,7 @@
 
 })(this,function( root, exports , _is ){
 
-    var isS = _is.isString , isU = _is.isUndefined, isNum = _is.isNumber , isM = _is.isEmail;
+    var isS = _is.isString , isU = _is.isUndefined, isNum = _is.isNumber , isM = _is.isEmail,  isR = _is.isRegExp;
 
 
 
@@ -35,14 +35,18 @@
         if( key == 'alpha'    ){ checkList[key] = /^[a-zA-Z]{1,}?$/.test(value)}
         // ---------------------------------------------------------------------
         if( key == 'range' ){
-          var range = rules[ key ].split(",");
-          if( range.length == 2 ){
-            var rangeMin = parseInt( range[0] );
-            var rangeMax =  parseInt( range[1]);
-            checkList[key] = (parseInt( value )  >= rangeMin && parseInt(value) <= rangeMax);
+          if( rules[ key ].length == 2 ){
+            checkList[key] = (parseInt( value )  >= rules[ key ][0] && parseInt(value) <= rules[ key ][1]);
           }else{checkList[key] = false;}
         }
         // ---------------------------------------------------------------------
+        if( key == 'regex'){
+            try{
+              checkList[key] = new RegExp(rules[key]).test(value);
+            }catch(ErrorCatch){
+              checkList[key] = false;
+            }
+        }
         if( key == 'string'    ){ checkList[key] = isS( value ) }
         if( key == 'mail'    ){ checkList[key] = isM( value ) }
         if( key ==='number' ){ checkList[key] = isNum(value) }
@@ -73,7 +77,16 @@
           for( var e = 0 ; e < rulesArray.length ; e++ ){
              var options = rulesArray[e].split(":");
              var keyOptions = options[0];
-             var valueOptions =  ['min','max','maxlength','minlength'].includes(keyOptions)  ? parseInt(options[1]) : options[1];
+             // ----------------------------------------------------------------
+             var valueOptions =  ['min','max','maxlength','minlength'].includes(keyOptions)  ?
+             parseInt(options[1]) :
+             ( ['range'].includes(keyOptions) ? (function(){
+               return function( option1){
+                 var option1Array = option1.split(",")
+                 return [ parseInt(option1Array[0]) , parseInt(option1Array[1]) ]
+               }
+             })()(options[1])  : options[1]);
+             // ----------------------------------------------------------------
              validateArray[ key ][keyOptions] = isU(valueOptions) ? true : valueOptions ;
           }
         }
