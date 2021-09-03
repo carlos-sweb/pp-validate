@@ -14,7 +14,7 @@ var result = validate(
     name : "string|minlength:10",
     age:'number|range:10,20',
     email:'mail|min:10',
-    code:'regex:^0000\-[A-Z]{2}[0-9]{3}\-[A-Z]{4}$'
+    code:'regex:/^0000\-[A-Z]{2}[0-9]{3}\-[A-Z]{4}$/m'
   }
 
 );

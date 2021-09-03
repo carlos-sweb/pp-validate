@@ -24,8 +24,6 @@
 
     var isS = _is.isString , isU = _is.isUndefined, isNum = _is.isNumber , isM = _is.isEmail,  isR = _is.isRegExp;
 
-
-
     var compare = function( rules , value ){
       var checkList = {};
       var keyRules = Object.keys(rules);
@@ -41,6 +39,12 @@
         }
         // ---------------------------------------------------------------------
         if( key == 'regex'){
+
+          // pattern
+          // ^\/([\^]{0,}[a-z,A-Z,0-9-\[\]\{\}$\W\s\S\w]{0,})\/([\w]{0,})
+          // https://regex101.com
+          console.log( rules[key] );
+
             try{
               checkList[key] = new RegExp(rules[key]).test(value);
             }catch(ErrorCatch){
