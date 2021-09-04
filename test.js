@@ -5,16 +5,20 @@ var result = validate(
   {
     name :"Daisy Nataly Montenegro vera",
     age:27,
-    email:'a@a.com',
-    code:'0000-AB150-DEFY'
+    pass:'C4rl0sill3sc42020',
+    repass:'C4rl0sill3sc42020',
+    email:'c4rl0sill3sc4@gmail.com',
+    code:'1234',
+    website:'https://powerpanel.site'
   },
-
-
   {
     name : "string|minlength:10",
     age:'number|range:10,20',
     email:'mail|min:10',
-    code:'regex:/^0000\-[A-Z]{2}[0-9]{3}\-[A-Z]{4}$/m'
+    code:'no_regex:/^[0-9]{4}$/gm',
+    website:'url',
+    pass:"required|string",
+    repass:"equalTo:pass"
   }
 
 );
