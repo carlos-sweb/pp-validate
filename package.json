@@ -1,5 +1,26 @@
 {
   "dependencies": {
     "pp-is": "^1.0.4"
-  }
+  },
+  "name": "pp-validate",
+  "description": "Function for validate data object from rules.",
+  "version": "1.0.0",
+  "main": "pp-validate.js",
+  "devDependencies": {},
+  "scripts": {
+    "compile": "terser --output pp-validate.min.js --compress --mangle --comments false -- pp-validate.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carlos-sweb/pp-validate.git"
+  },
+  "keywords": [
+    "validate"
+  ],
+  "author": "Carlos Illesca",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/carlos-sweb/pp-validate/issues"
+  },
+  "homepage": "https://github.com/carlos-sweb/pp-validate#readme"
 }

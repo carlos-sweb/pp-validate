@@ -22,22 +22,7 @@
 
 })(this,function( root, exports , _is ){
 
-
-/*
-  function validURL(str) {
-var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-  '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-  '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-  '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-  '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-  '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-return !!pattern.test(str);
-}
-*/
-
-    // https://regex101.com
     var getRegex = function( str ){
-
         var result = [];
         var regex = /^\/([\^]{0,}[\W\S]{0,})\/([g]{0,1}[m]{0,1}[i]{0,1}[y]{0,1}[u]{0,1}[s]{0,1})/gm;
         var m;
@@ -56,8 +41,6 @@ return !!pattern.test(str);
         }
 
         return result;
-
-
     }
 
 
@@ -65,19 +48,19 @@ return !!pattern.test(str);
     var isUrl = _is.isUrl;
 
     var compare = function( rules , value ){
+
       var checkList = {};
       var keyRules = Object.keys(rules);
       // =======================================================================
       for( var i = 0 ; i < keyRules.length; i ++ ){
-
+        var key = keyRules[i];
         if( [
           'alpha','range','regex',
           'no_regex','url','string',
           'mail','number','required',
-          'maxlength','minlength','max','min'
+          'maxlength','minlength','max','min','equalTo'
         ].includes(key) ){
 
-          var key = keyRules[i];
           if( key == 'alpha'    ){ checkList[key] = /^[a-zA-Z]{1,}?$/.test(value)}
           // ---------------------------------------------------------------------
           if( key == 'range' ){
@@ -102,6 +85,7 @@ return !!pattern.test(str);
             }
           }
           // ---------------------------------------------------------------------
+          if( key == 'equalTo'){ checkList[key]  = ( rules[key].toString() === value.toString()  ) }
           if( key == 'url' ){checkList[key] = isUrl( value ) }
           if( key == 'string'    ){ checkList[key] = isS( value ) }
           if( key == 'mail'    ){ checkList[key] = isM( value ) }
@@ -121,7 +105,7 @@ return !!pattern.test(str);
       return !(Object.values( checkList ).includes( false ))
     }
 
-    var createRules = function( rules ){
+    var createRules = function( rules , data ){
       // =======================================================================
       //
       var validateArray = {};
@@ -146,7 +130,11 @@ return !!pattern.test(str);
                  var option1Array = option1.split(",")
                  return [ parseInt(option1Array[0]) , parseInt(option1Array[1]) ]
                }
-             })()(options[1])  : options[1]);
+             })()(options[1])  : ( ['equalTo'].includes(keyOptions) ? (function(){
+               return function( equalToValue  , _data ){
+                  return  has( _data , equalToValue ) ?  _data[equalToValue] : null;
+               }
+             })()(options[1] , data ) : options[1]) );
              // ----------------------------------------------------------------
              validateArray[ key ][keyOptions] = isU(valueOptions) ? true : valueOptions ;
           }
@@ -175,19 +163,17 @@ return !!pattern.test(str);
     // Type
     // Url
     var validate = function( data , rules ){
-      var rules = createRules( rules );
+      // Agregamos la data para la funcion equalTo
+      var rules = createRules( rules , data );
       var keyRules = Object.keys( rules );
       var error = {};
       var result = {};
       for( var i = 0 ; i < keyRules.length ; i++){
         var key = keyRules[i];
-        console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        console.log( rules[key] );
-        console.log( data[key] );
-        console.log( compare( rules[key] , data[key] ) );
-        console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        // Falta Procesar los errores
+        result[key] = compare( rules[key] , data[key] );
       }
-      return { valid : true , error : false };
+      return { valid : !Object.values(result).includes(false) , error : false };
     }
     return validate;
 });

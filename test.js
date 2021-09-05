@@ -13,8 +13,8 @@ var result = validate(
   },
   {
     name : "string|minlength:10",
-    age:'number|range:10,20',
-    email:'mail|min:10',
+    age:'number|range:10,28',
+    email:'mail|minlength:10',
     code:'no_regex:/^[0-9]{4}$/gm',
     website:'url',
     pass:"required|string",
