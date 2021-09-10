@@ -106,7 +106,6 @@
           if( key == 'minlength' ){ checkList[key] = (value.toString().length >= rules[key]) }
           if( key == 'min' ){ checkList[key] = ( parseInt(value) >= rules[key]) }
           if( key == 'max' ){ checkList[key] = ( parseInt(value) <= rules[key]) }
-
         }else{
           // key no definidas
           checkList[key] = false;
@@ -145,7 +144,7 @@
                return function( equalToValue  , _data ){
                   return  has( _data , equalToValue ) ?  _data[equalToValue] : null;
                }
-             })()(options[1] , data ) : options[1]) );
+             })()(options[1] , data ) : /*Aqui Hay Que Trabajar*/['presence'].includes(keyOptions) && !isU(options[1]) ?  ( String(options[1]).toLowerCase() === 'true' ) : options[1] ) );
              // ----------------------------------------------------------------
              validateArray[ key ][keyOptions] = isU(valueOptions) ? true : valueOptions ;
           }
@@ -185,10 +184,13 @@
         // hay que Procesar el presence
 
         result[key] = compare( rules[key] , ( has(data,key) ?  data[key] : "" ) );
+
+        console.log( rules[key] );
+
         // ---------------------------------------------------------------------
         // Estamos Trabajando Aqui
         if( !result[key] ){
-            console.log( key, result[key] );
+            //console.log( key, result[key] );
         }
         // ---------------------------------------------------------------------
 

@@ -59,7 +59,7 @@ var result = validate(
     website:'https://powerpanel.site'
   },
   {
-    otro:"presence:true|minlength:50",
+    otro:"presence|minlength:50",
     name:"presence|minlength:10",
     age:'number|range:10,28',
     email:'mail|minlength:10',
