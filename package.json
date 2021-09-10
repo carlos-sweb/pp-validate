@@ -6,7 +6,6 @@
   "description": "Function for validate data object from rules.",
   "version": "1.0.0",
   "main": "pp-validate.js",
-  "devDependencies": {},
   "scripts": {
     "compile": "terser --output pp-validate.min.js --compress --mangle --comments false -- pp-validate.js"
   },

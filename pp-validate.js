@@ -21,7 +21,11 @@
     }
 
 })(this,function( root, exports , _is ){
-
+    /**
+     * @function : getRegex
+     * @description - captura en un array el patron entregado, la primera parte
+     * es el patron en cadena y la segunda son las banderas ha usar
+     **/
     var getRegex = function( str ){
         var result = [];
         var regex = /^\/([\^]{0,}[\W\S]{0,})\/([g]{0,1}[m]{0,1}[i]{0,1}[y]{0,1}[u]{0,1}[s]{0,1})/gm;
@@ -39,7 +43,6 @@
             }
           });
         }
-
         return result;
     }
 
@@ -47,6 +50,9 @@
     var isS = _is.isString , isU = _is.isUndefined, isNum = _is.isNumber , isM = _is.isEmail,  isR = _is.isRegExp;
     var isUrl = _is.isUrl;
 
+    /**
+     *@function compare
+     */
     var compare = function( rules , value ){
 
       var checkList = {};
@@ -87,7 +93,12 @@
           // ---------------------------------------------------------------------
           if( key == 'equalTo'){ checkList[key]  = ( rules[key].toString() === value.toString()  ) }
           if( key == 'url' ){checkList[key] = isUrl( value ) }
-          if( key == 'string'    ){ checkList[key] = isS( value ) }
+          if( key == 'presence' ){
+            console.log("-------------------------------------------------------");
+             console.log( keyRules[key] );
+          }
+          // Not necesary
+          //if( key == 'string'    ){ checkList[key] = isS( value ) }
           if( key == 'mail'    ){ checkList[key] = isM( value ) }
           if( key ==='number' ){ checkList[key] = isNum(value) }
           if( key == 'required'  ){ checkList[key] = (value !== "") }
@@ -171,8 +182,19 @@
       for( var i = 0 ; i < keyRules.length ; i++){
         var key = keyRules[i];
         // Falta Procesar los errores
-        result[key] = compare( rules[key] , data[key] );
+        // hay que Procesar el presence
+
+        result[key] = compare( rules[key] , ( has(data,key) ?  data[key] : "" ) );
+        // ---------------------------------------------------------------------
+        // Estamos Trabajando Aqui
+        if( !result[key] ){
+            console.log( key, result[key] );
+        }
+        // ---------------------------------------------------------------------
+
       }
+      // Get Error Items
+      // Get Error Items
       return { valid : !Object.values(result).includes(false) , error : false };
     }
     return validate;
