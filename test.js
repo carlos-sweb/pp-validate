@@ -42,15 +42,12 @@ console.log(validate({},{
 // => {"creditCardNumber": ["Credit card number is the wrong length (should be 16 characters)"]}
 
 
-
-
-
 */
 var validate = require('./pp-validate.js');
 var result = validate(
 
   {
-    name :"Daisy Nataly Montenegro vera",
+    //name :"Daisy Nataly Montenegro vera",
     age:27,
     pass:'C4rl0sill3sc42020',
     repass:'C4rl0sill3sc42020',
@@ -59,7 +56,7 @@ var result = validate(
     website:'https://powerpanel.site'
   },
   {
-    otro:"presence|minlength:50",
+    otro:"presence:true|minlength:50",
     name:"presence|minlength:10",
     age:'number|range:10,28',
     email:'mail|minlength:10',

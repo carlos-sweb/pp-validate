@@ -106,13 +106,27 @@
           if( key == 'minlength' ){ checkList[key] = (value.toString().length >= rules[key]) }
           if( key == 'min' ){ checkList[key] = ( parseInt(value) >= rules[key]) }
           if( key == 'max' ){ checkList[key] = ( parseInt(value) <= rules[key]) }
-        }else{
-          // key no definidas
-          checkList[key] = false;
+
+          if( checkList[key] === false ){ break;  }
+
         }
         // =======================================================================
       }
-      return !(Object.values( checkList ).includes( false ))
+
+      var thereAreErrors = !(Object.values( checkList ).includes( false ));
+
+      if(  thereAreErrors === false  ){
+         throw  (function( checkL ){
+            var checkLfalse = {},checkLfalseKeys = Object.keys(checkL);
+            for(var i = 0 ; i < checkLfalseKeys.length ; i++){
+              if( checkL[checkLfalseKeys[i]] === false ){
+                checkLfalse[checkLfalseKeys[i]] = checkL[checkLfalseKeys[i]];
+              }
+            }
+            return checkLfalse;
+         })(checkList);
+      }
+      return thereAreErrors;
     }
 
     var createRules = function( rules , data ){
@@ -132,6 +146,8 @@
           for( var e = 0 ; e < rulesArray.length ; e++ ){
              var options = rulesArray[e].split(":");
              var keyOptions = options[0];
+             // VERIFICAMOS QUE se cree un valor predeterminado en true
+             if( isU(options[1]) && options.length == 1  ){options[1] = true;}
              // ----------------------------------------------------------------
              var valueOptions =  ['min','max','maxlength','minlength'].includes(keyOptions)  ?
              parseInt(options[1]) :
@@ -144,7 +160,10 @@
                return function( equalToValue  , _data ){
                   return  has( _data , equalToValue ) ?  _data[equalToValue] : null;
                }
-             })()(options[1] , data ) : /*Aqui Hay Que Trabajar*/['presence'].includes(keyOptions) && !isU(options[1]) ?  ( String(options[1]).toLowerCase() === 'true' ) : options[1] ) );
+             })()(options[1] , data ) :
+
+              ['presence'].includes(keyOptions)  ?  ( String(options[1]).toLowerCase() === 'true' ) : options[1] ) );
+
              // ----------------------------------------------------------------
              validateArray[ key ][keyOptions] = isU(valueOptions) ? true : valueOptions ;
           }
@@ -183,21 +202,20 @@
         // Falta Procesar los errores
         // hay que Procesar el presence
 
-        result[key] = compare( rules[key] , ( has(data,key) ?  data[key] : "" ) );
-
-        console.log( rules[key] );
-
-        // ---------------------------------------------------------------------
-        // Estamos Trabajando Aqui
-        if( !result[key] ){
-            //console.log( key, result[key] );
+        // En este caso muy bueno para capturar errores
+        // El error se ejecutara cuando alla un aspecto en falso
+        try{
+          result[key] = compare( rules[key] , ( has(data,key) ?  data[key] : "" ) );
+        }catch( ErrorCompared ){
+          result[key] = false;
+          error[key] = ErrorCompared;
         }
-        // ---------------------------------------------------------------------
+        // En este caso muy bueno para capturar errores
 
       }
       // Get Error Items
       // Get Error Items
-      return { valid : !Object.values(result).includes(false) , error : false };
+      return { valid : !Object.values(result).includes(false) , error : error };
     }
     return validate;
 });
