@@ -1,7 +1,7 @@
 /*!!
  * Power Panel Validate <https://github.com/carlos-sweb/pp-validate>
  * @author Carlos Illesca
- * @version 1.0.0 (2020/05/14 18:12 PM)
+ * @version 1.0.0 (2020/10/08 13:29 PM)
  * Released under the MIT License
  */
 (function(global,factory){
@@ -21,6 +21,11 @@
     }
 
 })(this,function( root, exports , _is ){
+
+    var length = function( value ){
+        return value.length;
+    }
+
     /**
      * @function : getRegex
      * @description - captura en un array el patron entregado, la primera parte
@@ -55,10 +60,10 @@
      */
     var compare = function( rules , value ){
 
-      var checkList = {};
-      var keyRules = Object.keys(rules);
+      var checkList = {},
+      keyRules = Object.keys(rules);
       // =======================================================================
-      for( var i = 0 ; i < keyRules.length; i ++ ){
+      for( var i = 0 ; i < length( keyRules ); i ++ ){
         var key = keyRules[i];
         if( [
           'alpha','range','regex',
@@ -70,7 +75,7 @@
           if( key == 'alpha'    ){ checkList[key] = /^[a-zA-Z]{1,}?$/.test(value)}
           // ---------------------------------------------------------------------
           if( key == 'range' ){
-            if( rules[ key ].length == 2 ){
+            if( length( rules[ key ] ) == 2 ){
               checkList[key] = (parseInt( value )  >= rules[ key ][0] && parseInt(value) <= rules[ key ][1]);
             }else{checkList[key] = false;}
           }
@@ -102,12 +107,12 @@
           if( key == 'mail'    ){ checkList[key] = isM( value ) }
           if( key ==='number' ){ checkList[key] = isNum(value) }
           if( key == 'required'  ){ checkList[key] = (value !== "") }
-          if( key == 'maxlength' ){ checkList[key] = (value.toString().length <= rules[key]) }
-          if( key == 'minlength' ){ checkList[key] = (value.toString().length >= rules[key]) }
+          if( key == 'maxlength' ){ checkList[key] = ( length(value.toString()) <= rules[key]) }
+          if( key == 'minlength' ){ checkList[key] = ( length(value.toString()) >= rules[key]) }
           if( key == 'min' ){ checkList[key] = ( parseInt(value) >= rules[key]) }
           if( key == 'max' ){ checkList[key] = ( parseInt(value) <= rules[key]) }
 
-          if( checkList[key] === false ){ break;  }
+          if( checkList[key] === false ){ break; }
 
         }
         // =======================================================================
@@ -118,7 +123,7 @@
       if(  thereAreErrors === false  ){
          throw  (function( checkL ){
             var checkLfalse = {},checkLfalseKeys = Object.keys(checkL);
-            for(var i = 0 ; i < checkLfalseKeys.length ; i++){
+            for(var i = 0 ; i < length(checkLfalseKeys); i++){
               if( checkL[checkLfalseKeys[i]] === false ){
                 checkLfalse[checkLfalseKeys[i]] = checkL[checkLfalseKeys[i]];
               }
@@ -129,6 +134,7 @@
       return thereAreErrors;
     }
 
+     // Proceso 1
     var createRules = function( rules , data ){
       // =======================================================================
       //
@@ -138,16 +144,16 @@
       var keyRules = Object.keys( rules );
       // -----------------------------------------------------------------------
       // Procedemos a recorrer las reglas
-      for( var i = 0; i < keyRules.length ; i++){
+      for( var i = 0; i < length(keyRules)  ; i++){
         var key = keyRules[i];
         if( isS( rules[ key ] ) ){
           rulesArray = rules[ key ].split('|');
           validateArray[ key ] = {};
-          for( var e = 0 ; e < rulesArray.length ; e++ ){
+          for( var e = 0 ; e <  length(rulesArray); e++ ){
              var options = rulesArray[e].split(":");
              var keyOptions = options[0];
              // VERIFICAMOS QUE se cree un valor predeterminado en true
-             if( isU(options[1]) && options.length == 1  ){options[1] = true;}
+             if( isU(options[1]) && length(options) == 1  ){options[1] = true;}
              // ----------------------------------------------------------------
              var valueOptions =  ['min','max','maxlength','minlength'].includes(keyOptions)  ?
              parseInt(options[1]) :
@@ -191,17 +197,17 @@
     // presence
     // Type
     // Url
-    var validate = function( data , rules ){
+    return function( data , rules ){
       // Agregamos la data para la funcion equalTo
-      var rules = createRules( rules , data );
-      var keyRules = Object.keys( rules );
-      var error = {};
-      var result = {};
-      for( var i = 0 ; i < keyRules.length ; i++){
+      // Paso 1 - creamos las reglas de una
+      var rules = createRules( rules , data ),
+      keyRules = Object.keys( rules ), // Todas las key
+      error = {}, // Contenedor de los errores
+      result = {}; // Contendor del resultado
+      // -----------------------------------------------------------------------
+      for( var i = 0 ; i < length(keyRules); i++){
         var key = keyRules[i];
-        // Falta Procesar los errores
         // hay que Procesar el presence
-
         // En este caso muy bueno para capturar errores
         // El error se ejecutara cuando alla un aspecto en falso
         try{
@@ -211,11 +217,10 @@
           error[key] = ErrorCompared;
         }
         // En este caso muy bueno para capturar errores
-
       }
+      // -----------------------------------------------------------------------
       // Get Error Items
       // Get Error Items
       return { valid : !Object.values(result).includes(false) , error : error };
     }
-    return validate;
 });
