@@ -1,16 +1,15 @@
 var validate = require('./pp-validate.js');
 var result = validate(
   {
-    //name :"Daisy Nataly Montenegro vera",
+    name :"Daisy Nataly Montenegro vera",
     age:27,
     pass:'C4rl0sill3sc42020',
     repass:'C4rl0sill3sc42020',
     email:'c4rl0sill3sc4@gmail.com',
-    code:'1234',
+    code:'12345',
     website:'https://powerpanel.site'
   },
   {
-    otro:"presence:true|minlength:50",
     name:"presence|minlength:10",
     age:'number|range:10,28',
     email:'mail|minlength:10',

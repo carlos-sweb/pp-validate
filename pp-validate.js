@@ -1,7 +1,7 @@
 /*!!
  * Power Panel Validate <https://github.com/carlos-sweb/pp-validate>
  * @author Carlos Illesca
- * @version 1.0.0 (2020/10/08 13:29 PM)
+ * @version 1.0.0 (2020/10/08 16:58 PM)
  * Released under the MIT License
  */
 (function(global,factory){
@@ -50,8 +50,6 @@
         }
         return result;
     }
-
-
     var isS = _is.isString , isU = _is.isUndefined, isNum = _is.isNumber , isM = _is.isEmail,  isR = _is.isRegExp;
     var isUrl = _is.isUrl;
 
@@ -69,7 +67,7 @@
           'alpha','range','regex',
           'no_regex','url','string',
           'mail','number','required',
-          'maxlength','minlength','max','min','equalTo'
+          'maxlength','minlength','max','min','equalTo','presence'
         ].includes(key) ){
 
           if( key == 'alpha'    ){ checkList[key] = /^[a-zA-Z]{1,}?$/.test(value)}
@@ -98,11 +96,6 @@
           // ---------------------------------------------------------------------
           if( key == 'equalTo'){ checkList[key]  = ( rules[key].toString() === value.toString()  ) }
           if( key == 'url' ){checkList[key] = isUrl( value ) }
-          if( key == 'presence' ){
-            console.log("-------------------------------------------------------");
-             console.log( keyRules[key] );
-          }
-          // Not necesary
           //if( key == 'string'    ){ checkList[key] = isS( value ) }
           if( key == 'mail'    ){ checkList[key] = isM( value ) }
           if( key ==='number' ){ checkList[key] = isNum(value) }
@@ -111,9 +104,7 @@
           if( key == 'minlength' ){ checkList[key] = ( length(value.toString()) >= rules[key]) }
           if( key == 'min' ){ checkList[key] = ( parseInt(value) >= rules[key]) }
           if( key == 'max' ){ checkList[key] = ( parseInt(value) <= rules[key]) }
-
           if( checkList[key] === false ){ break; }
-
         }
         // =======================================================================
       }
@@ -211,7 +202,10 @@
         // En este caso muy bueno para capturar errores
         // El error se ejecutara cuando alla un aspecto en falso
         try{
-          result[key] = compare( rules[key] , ( has(data,key) ?  data[key] : "" ) );
+          if( has( data , key) ){
+            result[key] = compare( rules[key] , data[key]  );
+          }else{ /*Cuando el objeto a comprara no existe*/ throw {presence:false}; }
+
         }catch( ErrorCompared ){
           result[key] = false;
           error[key] = ErrorCompared;
