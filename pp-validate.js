@@ -128,7 +128,8 @@
      // Proceso 1
     var createRules = function( rules , data ){
       // =======================================================================
-      //
+      var numericKey = ['min','max','maxlength','minlength'];
+      // =======================================================================
       var validateArray = {};
       // =======================================================================
       //
@@ -144,9 +145,16 @@
              var options = rulesArray[e].split(":");
              var keyOptions = options[0];
              // VERIFICAMOS QUE se cree un valor predeterminado en true
-             if( isU(options[1]) && length(options) == 1  ){options[1] = true;}
+             if( isU(options[1]) && length(options) == 1  ){
+               // si esperamos un numero agregamos el valor 0
+               if( numericKey.includes( keyOptions ) ){
+                 options[1] = 0;
+               }else{
+                 options[1] = true;
+               }
+             }
              // ----------------------------------------------------------------
-             var valueOptions =  ['min','max','maxlength','minlength'].includes(keyOptions)  ?
+             var valueOptions =  numericKey.includes(keyOptions)  ?
              parseInt(options[1]) :
              ( ['range'].includes(keyOptions) ? (function(){
                return function( option1){

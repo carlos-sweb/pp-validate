@@ -10,7 +10,7 @@ var result = validate(
     website:'https://powerpanel.site'
   },
   {
-    name:"presence|minlength:10",
+    name:"presence|minlength:10|maxlength:30",
     age:'number|range:10,28',
     email:'mail|minlength:10',
     code:'no_regex:/^[0-9]{4}$/gm',
@@ -19,5 +19,5 @@ var result = validate(
     repass:"equalTo:pass"
   }
 );
-// required|max:20|min:10|regex:/^.+@.+$/i|no_regex:/^.+@.+$/i
+
 console.log( result );
