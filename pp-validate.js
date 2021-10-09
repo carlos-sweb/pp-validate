@@ -185,7 +185,6 @@
       return value.hasOwnProperty( key )
     }
     // Necesitamos validar
-    // Data Time validator - format all
     // Email
     // Equality
     // Exclusion

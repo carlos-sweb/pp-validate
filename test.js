@@ -1,23 +1,28 @@
 var validate = require('./pp-validate.js');
-var result = validate(
-  {
-    name :"Daisy Nataly Montenegro vera",
-    age:27,
-    pass:'C4rl0sill3sc42020',
-    repass:'C4rl0sill3sc42020',
-    email:'c4rl0sill3sc4@gmail.com',
-    code:'12345',
-    website:'https://powerpanel.site'
-  },
-  {
-    name:"presence|minlength:10|maxlength:30",
-    age:'number|range:10,28',
-    email:'mail|minlength:10',
-    code:'no_regex:/^[0-9]{4}$/gm',
-    website:'url',
-    pass:"required|string",
-    repass:"equalTo:pass"
-  }
-);
+var data = {
+    name  : "Jhon Smith",
+    age   : 30,
+    email : "john@jsmith.com",
+    website : "https://jsmith.com",
+    pass : "12345678",
+    repeatpass : "12345678",
+    something:"Hello World"
+}
+var rules = {
+    name : "minlength:6", // true
+    age : "number|range:18,65", // true
+    email:"mail|minlength:10", // true
+    website:"url", // true
+    pass:"minlength:8", // true
+    repeatpass:"equalTo:pass",//true
+    something:"presence"
+}
+var result = validate( data , rules);
 
-console.log( result );
+if( result.valid ){
+  // here you successful code
+  console.log( " data validated : successful" );
+}else{
+
+    console.log( result.error );
+}
