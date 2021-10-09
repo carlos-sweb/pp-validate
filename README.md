@@ -7,7 +7,7 @@ pp-validate is a simple function for data validation.
 In the web project include pp-validate with:
 
 ```
-<script src="https://cdn.jsdelivr.net/npm/pp-elementjson.js@1.0.3/pp-elementjson.min.js" ></script>
+<script src="https://cdn.jsdelivr.net/npm/pp-validate@latest/pp-validate.min.js" ></script>
 ```
 
 Or
