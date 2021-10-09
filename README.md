@@ -67,9 +67,10 @@ if( result.valid ){
   * mail
   * url
 
+### String
+  * string
+  * equalTo
 
-
-* string
-* required
-* equalTo
-* presence
+### Boolean
+  * required
+  * presence
