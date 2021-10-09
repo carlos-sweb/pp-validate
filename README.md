@@ -53,18 +53,23 @@ if( result.valid ){
 ```
 ## Rules
 
-* alpha
-* range
-* regex
-* no_regex
-* url
+### Numeric
+  * range
+  * number
+  * maxlength
+  * minlength
+  * max
+  * min
+
+### Pattern
+  * regex
+  * no_regex
+  * mail
+  * url
+
+
+
 * string
-* mail
-* number
 * required
-* maxlength
-* minlength
-* max
-* min
 * equalTo
 * presence
