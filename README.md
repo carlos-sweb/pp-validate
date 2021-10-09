@@ -20,7 +20,7 @@ npm i pp-validate --save
 ## Initialize
 
 ```javascript
-// Declare elementjson here
+// Declare pp-validate here
 var validate = ppValidate;
 
 var data = {
