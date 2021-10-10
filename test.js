@@ -8,7 +8,7 @@ var data = {
     repeatpass : "12345678",
     something:"Hello World"
 }
-var rules = {
+var rules = {    
     name : "minlength:6|maxlength:50", // true
     age : "number|range:18,65", // true
     email:"mail|minlength:10", // true

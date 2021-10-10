@@ -1,7 +1,7 @@
 /*!!
  * Power Panel Validate <https://github.com/carlos-sweb/pp-validate>
  * @author Carlos Illesca
- * @version 1.0.0 (2020/10/08 16:58 PM)
+ * @version 1.0.1 (2020/10/10 16:02 PM)
  * Released under the MIT License
  */
 (function(global,factory){
@@ -189,16 +189,16 @@
       return value.hasOwnProperty( key )
     }
     // Necesitamos validar
-    // Email
-    // Equality
-    // Exclusion
-    // Format
+    // Email , Ok
+    // Equality , Not
+    // Exclusion , Not
+    // Format , Not
     // Inclusion
-    // Length
-    // numericality
-    // presence
-    // Type
-    // Url
+    // Length , Ok
+    // numericality , Ok
+    // presence , OK
+    // Type , NOT
+    // Url , Ok
     return function( data , rules ){
       // Agregamos la data para la funcion equalTo
       // Paso 1 - creamos las reglas de una
@@ -215,7 +215,18 @@
         try{
           if( has( data , key) ){
             result[key] = compare( rules[key] , data[key]  );
-          }else{ /*Cuando el objeto a comprara no existe*/ throw {presence:false}; }
+          }else{
+           // Validamos que el requerimiento de presencia del la data
+           // exista y además que tenga un valor true para el requerimiento
+           if( has( rules , key) ){
+             if( has( rules[key], 'presence' ) ){
+               if( rules[key]['presence'] === true ){
+                 throw {presence:false};
+               }
+             }
+           }
+
+          }
 
         }catch( ErrorCompared ){
           result[key] = false;
