@@ -54,17 +54,17 @@ if( result.valid ){
 ## Rules
 
 ### Numeric
-  * **range**
+  * **range** :
      - The range validator will check that a number is within a range.
-  * **number**
+  * **number** :
      - The maxlength validator will check the type of a value
-  * **maxlength**
+  * **maxlength** :
       - The maxlength validator will check the maximun length of a string
-  * **minlength**
+  * **minlength** :
       - The minlength validator will check the minimun length of a string
-  * **max**
+  * **max** :
       - The max validator will check the maximun length of a number
-  * **min**
+  * **min** :
      - The min validator will check the minimun length of a number
 
 ### Pattern
