@@ -68,15 +68,21 @@ if( result.valid ){
      - The min validator will check the minimun length of a number
 
 ### Pattern
-  * regex
-  * no_regex
-  * mail
-  * url
+  * **regex** :
+    - The regex validator will validate the value matches the regular expression
+  * **no_regex** :
+    - The no_regex validator will validate the value does not match the regular expression
+  * **mail** :
+    - The mail validator will verify that the value is a valid e-mail.
+  * **url** :
+    - The mail validator will verify that the value is a valid url.
 
 ### String
-  * string
-  * equalTo
+  * **string**
+    - The string validator will validate that the value is a text string.
+  * **equalTo**
+    - The equalTo validator will validate that the value matches the key to be compared.
 
 ### Boolean
-  * required
-  * presence
+  * **required**
+  * **presence**
