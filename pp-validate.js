@@ -64,13 +64,11 @@
       for( var i = 0 ; i < length( keyRules ); i ++ ){
         var key = keyRules[i];
         if( [
-          'alpha','range','regex',
+          'range','regex',
           'no_regex','url','string',
           'mail','number','required',
           'maxlength','minlength','max','min','equalTo','presence'
         ].includes(key) ){
-
-          if( key == 'alpha'    ){ checkList[key] = /^[a-zA-Z]{1,}?$/.test(value)}
           // ---------------------------------------------------------------------
           if( key == 'range' ){
             if( length( rules[ key ] ) == 2 ){
@@ -102,7 +100,7 @@
           // ---------------------------------------------------------------------
           if( key == 'equalTo'){ checkList[key]  = ( rules[key].toString() === value.toString()  ) }
           if( key == 'url' ){checkList[key] = isUrl( value ) }
-          //if( key == 'string'    ){ checkList[key] = isS( value ) }
+          if( key == 'string'    ){ checkList[key] = isS( value ) }
           if( key == 'mail'    ){ checkList[key] = isM( value ) }
           if( key ==='number' ){ checkList[key] = isNum(value) }
           if( key == 'required'  ){ checkList[key] = (value !== "") }
