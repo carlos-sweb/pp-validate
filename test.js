@@ -9,7 +9,7 @@ var data = {
     something:"Hello World"
 }
 var rules = {
-    name : "minlength:6", // true
+    name : "minlength:6|maxlength:50", // true
     age : "number|range:18,65", // true
     email:"mail|minlength:10", // true
     website:"url", // true

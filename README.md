@@ -55,11 +55,17 @@ if( result.valid ){
 
 ### Numeric
   * range
+     The range validator will check that a number is within a range.
   * number
+      The maxlength validator will check the type of a value
   * maxlength
+      The maxlength validator will check the maximun length of a string
   * minlength
+      The minlength validator will check the minimun length of a string
   * max
+      The max validator will check the maximun length of a number
   * min
+     The min validator will check the minimun length of a number
 
 ### Pattern
   * regex

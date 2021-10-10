@@ -74,8 +74,14 @@
           // ---------------------------------------------------------------------
           if( key == 'range' ){
             if( length( rules[ key ] ) == 2 ){
-              checkList[key] = (parseInt( value )  >= rules[ key ][0] && parseInt(value) <= rules[ key ][1]);
-            }else{checkList[key] = false;}
+              if( rules[key][0] < rules[key][1] ){
+                checkList[key] = (parseInt( value )  >= rules[ key ][0] && parseInt(value) <= rules[ key ][1]);
+              }else{
+                  checkList[key] = false;
+              }
+            }else{
+              checkList[key] = false;
+            }
           }
           // ---------------------------------------------------------------------
           if( key == 'regex' || key == 'no_regex' ){
@@ -100,7 +106,7 @@
           if( key == 'mail'    ){ checkList[key] = isM( value ) }
           if( key ==='number' ){ checkList[key] = isNum(value) }
           if( key == 'required'  ){ checkList[key] = (value !== "") }
-          if( key == 'maxlength' ){ checkList[key] = ( length(value.toString()) <= rules[key]) }
+          if( key == 'maxlength' ){ checkList[key] = ( length(value.toString()) <= rules[key] ) }
           if( key == 'minlength' ){ checkList[key] = ( length(value.toString()) >= rules[key]) }
           if( key == 'min' ){ checkList[key] = ( parseInt(value) >= rules[key]) }
           if( key == 'max' ){ checkList[key] = ( parseInt(value) <= rules[key]) }
