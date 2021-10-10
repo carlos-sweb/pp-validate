@@ -59,13 +59,13 @@ if( result.valid ){
   * number
      - The maxlength validator will check the type of a value
   * maxlength
-      The maxlength validator will check the maximun length of a string
+      - The maxlength validator will check the maximun length of a string
   * minlength
-      The minlength validator will check the minimun length of a string
+      - The minlength validator will check the minimun length of a string
   * max
-      The max validator will check the maximun length of a number
+      - The max validator will check the maximun length of a number
   * min
-     The min validator will check the minimun length of a number
+     - The min validator will check the minimun length of a number
 
 ### Pattern
   * regex
