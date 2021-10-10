@@ -55,9 +55,9 @@ if( result.valid ){
 
 ### Numeric
   * range
-     The range validator will check that a number is within a range.
+     - The range validator will check that a number is within a range.
   * number
-      The maxlength validator will check the type of a value
+     - The maxlength validator will check the type of a value
   * maxlength
       The maxlength validator will check the maximun length of a string
   * minlength
