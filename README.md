@@ -85,4 +85,6 @@ if( result.valid ){
 
 ### Boolean
   * **required**
+    - The required validator will validate that the value is not empty.
   * **presence**
+    - The validator presence will validate the key and value in the data to be compared.
