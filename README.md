@@ -39,7 +39,7 @@ var rules = {
     website:"url", // true
     pass:"minlength:8", // true
     repeatpass:"equalTo:pass",//true
-    something:"presence"
+    something:"presence" // true
 }
 var result = validate( data , rules);
 
